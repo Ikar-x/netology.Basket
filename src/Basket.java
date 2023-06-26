@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Basket{
+public class Basket implements Serializable{
     private String[] products;
     private int[] prices;
     private int[] count;
@@ -60,9 +60,9 @@ public class Basket{
         }
     }
 
-    static Basket loadFromTxtFile(File textFile){
+    static Basket loadFromTxtFile(File f){
         List<String> list = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(textFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             String s;
             while ((s = br.readLine()) != null) {
                 list.add(s);
@@ -80,6 +80,25 @@ public class Basket{
             return new Basket(products, prices, count);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        }
+        return new Basket();
+    }
+
+    public void saveBin(File file){
+        try (FileOutputStream fos = new FileOutputStream(file); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(this);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    static Basket loadFromBinFile(File f){
+        try (FileInputStream fis = new FileInputStream(f);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+             Basket b = (Basket) ois.readObject();
+             return b;
+        } catch (Exception ex) {
+             System.out.println(ex.getMessage());
         }
         return new Basket();
     }

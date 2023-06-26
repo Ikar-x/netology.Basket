@@ -12,10 +12,10 @@ public class Main {
             System.out.printf("%d. %s %d руб/шт\n", i + 1, products[i], prices[i]);
         }
 
-        File f = new File("basket.txt");
+        File f = new File("basket.bin");
         Basket basket;
         if(f.exists()) {
-            basket = Basket.loadFromTxtFile(f);
+            basket = Basket.loadFromBinFile(f);
             basket.printCart();
         }else{
             basket = new Basket(products, prices);
@@ -28,7 +28,7 @@ public class Main {
             if(answer.equals("end")) break;
             String[] st = answer.split(" ");
             basket.addToCart(Integer.parseInt(st[0])-1, Integer.parseInt(st[1]));
-            basket.saveTxt(f);
+            basket.saveBin(f);
         }
 
         basket.printCart();
