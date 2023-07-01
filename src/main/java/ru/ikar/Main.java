@@ -57,7 +57,7 @@ public class Main {
             catch(IOException e){
                 // Handle the exception
             }
-            basket.saveTxt(f);
+            //basket.saveTxt(f);
         }
         File fcsv = new File("log.csv");
         cl.exportAsCSV(fcsv);
